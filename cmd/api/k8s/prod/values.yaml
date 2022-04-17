@@ -1,0 +1,51 @@
+---
+service_name: dummy_service
+
+resources:
+  requests:
+    cpu: 400m
+    memory: 256Mi
+  limits:
+    cpu: 400m
+    memory: 256Mi
+
+replicaCount: 2
+updateStrategy:
+  maxUnavailable: 1
+  deployStrategy: RollingUpdate
+configs:
+  src_path: "k8s/prod/config/*"
+  dest_path: "/opt/app/config/"
+
+env_vars:
+  - name: DB_USERNAME
+    value: vault:invest/data/application-secrets/prod/admin-apps/release-manager/pg/#username
+  - name: DB_PASSWORD
+    value: vault:invest/data/application-secrets/prod/admin-apps/release-manager/pg/#password
+  - name: DB_NAME
+    value: vault:invest/data/application-secrets/prod/admin-apps/release-manager/pg/#db_name
+  - name: DB_ADDRESS
+    value: vault:invest/data/application-secrets/prod/admin-apps/release-manager/pg/#db_address
+
+traffic_control:
+  ingress:
+    enabled: true
+    hosts:
+      - name: api
+        routes:
+          - name: http-api
+            port: 8080
+            endpoint: /
+
+readiness_probe:
+  httpGet:
+    path: /readiness
+    port: 8080
+  initialDelaySeconds: 30
+  periodSeconds: 15
+liveness_probe:
+  httpGet:
+    path: /liveness
+    port: 8080
+  initialDelaySeconds: 30
+  periodSeconds: 15
