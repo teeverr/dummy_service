@@ -12,10 +12,10 @@ import (
 )
 
 // local
-//const configPath string = "/Users/k.sushkov/git/my/dummy_service/cmd/api/k8s/prod/configs/config.yml"
+const configPath string = "/Users/k.sushkov/git/my/dummy_service/cmd/api/k8s/prod/configs/config.yml"
 
 // Inside Docker container
-const configPath string = "/opt/app/config/config.yml"
+//const configPath string = "/opt/app/config/config.yml"
 
 type Config struct {
 	Server struct {

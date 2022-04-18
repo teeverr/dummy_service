@@ -36,11 +36,17 @@ func main() {
 	router := mux.NewRouter()
 	liveness := health.NewLivenessProbe()
 	readiness := health.NewReadinessProbe()
-	workloadHandlers := handlers.WorkloadHandler{Db: db}
+	workloadHandlers := handlers.WorkloadHandler{Db: db, Config: config}
+	checksTestHandlers := handlers.ChecksControl{Liveness: liveness, Readiness: readiness}
 
-	router.Handle("/liveness", liveness)
+	router.Handle("/healthz", liveness)
 	router.Handle("/readiness", readiness)
+	router.Path("/healthz-on").Methods("GET").HandlerFunc(checksTestHandlers.HealthOn)
+	router.Path("/healthz-off").Methods("GET").HandlerFunc(checksTestHandlers.HealthOff)
+	router.Path("/ready").Methods("GET").HandlerFunc(checksTestHandlers.Ready)
+	router.Path("/not-ready").Methods("GET").HandlerFunc(checksTestHandlers.NotReady)
 	router.Path("/set-cpu").Methods("POST").HandlerFunc(workloadHandlers.SetCpuWorkload)
+	router.Path("/show-cpu").Methods("GET").HandlerFunc(workloadHandlers.ShowTargetCPuWorkload)
 
 	srv := &http.Server{
 		Handler:      router,

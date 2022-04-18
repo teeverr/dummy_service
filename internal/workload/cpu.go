@@ -63,6 +63,6 @@ func CpuWorkloadReader(db *database.Client, config *domain.Config) {
 			cpuPercentage = workload.TargetCPULoad
 		}
 		log.Printf("TARGET CPU%%  - %v", cpuPercentage)
-		RunCPULoad(runtime.NumCPU(), 15, cpuPercentage)
+		RunCPULoad(runtime.NumCPU(), 14, cpuPercentage)
 	}
 }

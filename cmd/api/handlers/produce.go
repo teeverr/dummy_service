@@ -11,10 +11,11 @@ import (
 )
 
 type WorkloadHandler struct {
-	Db *database.Client
+	Db     *database.Client
+	Config *domain.Config
 }
 
-func (wh *WorkloadHandler) SetCpuWorkload(w http.ResponseWriter, r *http.Request) {
+func (wlh *WorkloadHandler) SetCpuWorkload(w http.ResponseWriter, r *http.Request) {
 	var ct domain.Workload
 	decoder := json.NewDecoder(r.Body)
 	decoder.DisallowUnknownFields()
@@ -25,7 +26,7 @@ func (wh *WorkloadHandler) SetCpuWorkload(w http.ResponseWriter, r *http.Request
 		return
 	}
 	fmt.Printf("%+v\n", ct)
-	err = wh.Db.SetCpu(&ct)
+	err = wlh.Db.SetCpu(&ct)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Printf("%s\n", err.Error())
@@ -33,4 +34,20 @@ func (wh *WorkloadHandler) SetCpuWorkload(w http.ResponseWriter, r *http.Request
 	}
 	w.WriteHeader(http.StatusOK)
 	log.Printf("target cpu worload was set to %v", ct.TargetCPULoad)
+}
+
+func (wlh *WorkloadHandler) ShowTargetCPuWorkload(w http.ResponseWriter, r *http.Request) {
+	workload, err := wlh.Db.GetLastCpu()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Printf("%s", err.Error())
+	}
+	if workload.TargetCPULoad == 0 {
+		workload.TargetCPULoad = wlh.Config.Workload.Cpu.Min
+	}
+	err = json.NewEncoder(w).Encode(&workload)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Printf("%s", err.Error())
+	}
 }

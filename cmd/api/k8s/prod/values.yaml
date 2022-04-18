@@ -18,14 +18,8 @@ configs:
   dest_path: "/opt/app/config/"
 
 env_vars:
-  - name: DB_USERNAME
-    value: vault:invest/data/application-secrets/prod/admin-apps/release-manager/pg/#username
-  - name: DB_PASSWORD
-    value: vault:invest/data/application-secrets/prod/admin-apps/release-manager/pg/#password
-  - name: DB_NAME
-    value: vault:invest/data/application-secrets/prod/admin-apps/release-manager/pg/#db_name
   - name: DB_ADDRESS
-    value: vault:invest/data/application-secrets/prod/admin-apps/release-manager/pg/#db_address
+    value: db-postgresql.namespace-placeholder.svc.cluster.local
 
 traffic_control:
   ingress:
@@ -45,7 +39,7 @@ readiness_probe:
   periodSeconds: 15
 liveness_probe:
   httpGet:
-    path: /liveness
+    path: /healthz
     port: 8080
   initialDelaySeconds: 30
   periodSeconds: 15
