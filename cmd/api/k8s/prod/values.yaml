@@ -3,11 +3,11 @@ service_name: dummy-service
 
 resources:
   requests:
-    cpu: 400m
-    memory: 256Mi
+    cpu: 1
+    memory: 1024Mi
   limits:
-    cpu: 400m
-    memory: 256Mi
+    cpu: 1
+    memory: 1024Mi
 
 replicaCount: 2
 updateStrategy:
@@ -45,6 +45,6 @@ liveness_probe:
   periodSeconds: 15
 autoscaling:
   enabled: true
-  targetCPU: 300m
+  targetCPU: 1
   maxReplicas: 6
 
