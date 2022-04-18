@@ -3,29 +3,29 @@ service_name: dummy-service
 
 resources:
   requests:
-    cpu: 1
-    memory: 1024Mi
+    cpu: 3
+    memory: 256Mi
   limits:
-    cpu: 1
-    memory: 1024Mi
+    cpu: 5
+    memory: 512Mi
 
 replicaCount: 2
 updateStrategy:
   maxUnavailable: 1
   deployStrategy: RollingUpdate
 configs:
-  src_path: "k8s/prod/config/*"
+  src_path: "k8s/prod/configs/*"
   dest_path: "/opt/app/config/"
 
 env_vars:
   - name: DB_ADDRESS
-    value: db-postgresql.namespace-placeholder.svc.cluster.local
+    value: db-postgresql.my-namespace.svc.cluster.local
 
 traffic_control:
   ingress:
     enabled: true
     hosts:
-      - name: api
+      - name: awesome.domain
         routes:
           - name: http-api
             port: 8080
@@ -43,8 +43,8 @@ liveness_probe:
     port: 8080
   initialDelaySeconds: 30
   periodSeconds: 15
+  failureThreshold: 3
 autoscaling:
   enabled: true
-  targetCPU: 1
-  maxReplicas: 6
-
+  targetCPU: 50
+  maxReplicas: 5
