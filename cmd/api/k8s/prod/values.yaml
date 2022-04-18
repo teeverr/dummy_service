@@ -1,5 +1,5 @@
 ---
-service_name: dummy_service
+service_name: dummy-service
 
 resources:
   requests:
@@ -43,3 +43,8 @@ liveness_probe:
     port: 8080
   initialDelaySeconds: 30
   periodSeconds: 15
+autoscaling:
+  enabled: true
+  targetCPU: 300m
+  maxReplicas: 6
+

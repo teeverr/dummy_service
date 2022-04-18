@@ -17,9 +17,8 @@ func (c *Client) GetLastCpu() (domain.Workload, error) {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			model.TargetCPULoad = 0
 			return model, nil
-		} else {
-			return model, result.Error
 		}
+		return model, result.Error
 	} else {
 		return model, nil
 	}
