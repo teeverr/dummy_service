@@ -18,5 +18,5 @@ Also it has readiness and healthz methods and methods which can control this two
 
 Code which artificially produce cpu workload was borrowed from [here](|https://github.com/vikyd/go-cpu-load/blob/master/cpu_load.go)
 
-###Example
+### Example
 curl -v -X POST -H "Content-Type:application/json" -d '{"target_cpu_load": 15}' 'http://localhost:8080/set-cpu'
