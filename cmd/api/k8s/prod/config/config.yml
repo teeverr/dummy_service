@@ -1,0 +1,20 @@
+---
+server:
+  host: 0.0.0.0
+  port: 8080
+  write_timeout: 15
+  read_timeout: 15
+  graceful_timeout: 15
+database:
+  address: ${DB_ADDRESS}
+  port: 5432
+  username: ${DB_USERNAME}
+  password: ${DB_PASSWORD}
+#  name: hunger_station
+  name: test
+  timezone: europe/moscow
+  prefix: hs
+workload:
+  cpu:
+    min: 10
+    max: 100
