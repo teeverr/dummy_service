@@ -19,7 +19,7 @@ configs:
 
 env_vars:
   - name: DB_ADDRESS
-    value: db-postgresql.my-namespace.svc.cluster.local
+    value: db-postgresql.namespace-placeholder.svc.cluster.local
 
 traffic_control:
   ingress:
