@@ -46,5 +46,5 @@ liveness_probe:
   failureThreshold: 3
 autoscaling:
   enabled: true
-  targetCPU: 50
+  targetAverageCpuUtilization: 50
   maxReplicas: 5
