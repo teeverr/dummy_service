@@ -14,7 +14,7 @@ updateStrategy:
   maxUnavailable: 1
   deployStrategy: RollingUpdate
 configs:
-  src_path: "k8s/prod/config/*"
+  src_path: "k8s/prod/configs/*"
   dest_path: "/opt/app/config/"
 
 env_vars:
